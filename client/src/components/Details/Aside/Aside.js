@@ -29,6 +29,7 @@ function Aside({ params, history }) {
                 setShowArchive(false);
                 history.push(`/profile/${params.seller}`);
             })
+            .catch(err => console.log(err))
     }
 
     const handleMsgChange = (e) => {
@@ -43,7 +44,7 @@ function Aside({ params, history }) {
             })
             .catch(err => console.log(err))
     }
-    console.log(params)
+
     return (
         <aside>
             <div className="product-details-seller">
@@ -64,15 +65,17 @@ function Aside({ params, history }) {
 
                         </>
                     }
-                    <h1 id="price-heading">{params.price} €</h1>
+                    {params.price && <h1 id="price-heading">{(params.price).toFixed(2)}€</h1>}
                 </div>
                 {params.isAuth ? (<>
-                    <Button variant="dark" className="col-lg-10" id="btnContact" onClick={handleShow}>
-                        <RiMessage3Fill />Contact Seller
-                 </Button>{' '}
+                    {!params.isSeller &&
+                        <Button variant="dark" className="col-lg-10" id="btnContact" onClick={handleShow}>
+                            <RiMessage3Fill />Contact Seller
+                        </Button>
+                    }
                     <Link to={`/profile/${params.sellerId}`}>
                         <Col lg={12}>
-                            <img id="avatar" src={params.avatar} />
+                            <img id="avatar" src={params.avatar} alt="user-avatar" />
                         </Col>
                         <Col lg={12}>
                             <p><BsFillPersonFill /> {params.name}</p>
